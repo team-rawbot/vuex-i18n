@@ -132,7 +132,8 @@ var flattenTranslations = function flattenTranslations(translations) {
   var toReturn = {};
 
   for (var i in translations) {
-    // check if the property is present
+    var key = i.toLowerCase(); // check if the property is present
+
     if (!translations.hasOwnProperty(i)) {
       continue;
     } // get the type of the property
@@ -153,16 +154,16 @@ var flattenTranslations = function flattenTranslations(translations) {
         }
       }
 
-      toReturn[i] = translations[i];
+      toReturn[key] = translations[i];
     } else if (objType == 'object' && objType !== null) {
       var flatObject = flattenTranslations(translations[i]);
 
       for (var x in flatObject) {
         if (!flatObject.hasOwnProperty(x)) continue;
-        toReturn[i + '.' + x] = flatObject[x];
+        toReturn[key + '.' + x] = flatObject[x];
       }
     } else {
-      toReturn[i] = translations[i];
+      toReturn[key] = translations[i];
     }
   }
 
@@ -508,7 +509,9 @@ VuexI18nPlugin.install = function install(Vue, store, config) {
     var fallback = store.state[moduleName].fallback; // split locale by - to support partial fallback for regional locales
     // like de-CH, en-UK
 
-    var localeRegional = locale.split('-'); // flag for translation to exist or not
+    var localeRegional = locale.split('-'); // we lowercase the key because we don't want to be case-sensitive
+
+    key = key.toLowerCase(); // flag for translation to exist or not
 
     var translationExists = true; // check if the language exists in the store. return the key if not
 
@@ -570,7 +573,8 @@ VuexI18nPlugin.install = function install(Vue, store, config) {
     // get the current language from the store
     var locale = store.state[moduleName].locale;
     var fallback = store.state[moduleName].fallback;
-    var translations = store.state[moduleName].translations; // check the current translation
+    var translations = store.state[moduleName].translations;
+    key = key.toLowerCase(); // check the current translation
 
     if (translations.hasOwnProperty(locale) && translations[locale].hasOwnProperty(key)) {
       return true;

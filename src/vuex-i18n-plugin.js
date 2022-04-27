@@ -148,6 +148,9 @@ VuexI18nPlugin.install = function install(Vue, store, config) {
 		// like de-CH, en-UK
 		let localeRegional = locale.split('-');
 
+		// we lowercase the key because we don't want to be case-sensitive
+		key = key.toLowerCase();
+
 		// flag for translation to exist or not
 		let translationExists = true;
 
@@ -213,6 +216,8 @@ VuexI18nPlugin.install = function install(Vue, store, config) {
 		let locale = store.state[moduleName].locale;
 		let fallback = store.state[moduleName].fallback;
 		let translations = store.state[moduleName].translations;
+
+		key = key.toLowerCase();
 
 		// check the current translation
 		if (translations.hasOwnProperty(locale) && translations[locale].hasOwnProperty(key)) {

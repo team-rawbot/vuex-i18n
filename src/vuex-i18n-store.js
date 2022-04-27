@@ -145,7 +145,7 @@ const flattenTranslations = function flattenTranslations(translations) {
 	let toReturn = {};
 
 	for (let i in translations) {
-
+		const key = i.toLowerCase();
 		// check if the property is present
 		if (!translations.hasOwnProperty(i)) {
 			continue;
@@ -168,7 +168,7 @@ const flattenTranslations = function flattenTranslations(translations) {
 				}
 			}
 
-			toReturn[i] = translations[i];
+			toReturn[key] = translations[i];
 
 		} else if (objType == 'object' && objType !== null) {
 
@@ -177,11 +177,11 @@ const flattenTranslations = function flattenTranslations(translations) {
 			for (let x in flatObject) {
 				if (!flatObject.hasOwnProperty(x)) continue;
 
-				toReturn[i + '.' + x] = flatObject[x];
+				toReturn[key + '.' + x] = flatObject[x];
 			}
 
 		} else {
-			toReturn[i] = translations[i];
+			toReturn[key] = translations[i];
 
 		}
 	}
